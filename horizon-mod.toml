@@ -1,0 +1,15 @@
+id = "momawds_optimization"
+name = "Momawd's Optimization Mod"
+version = "1.0.0"
+description = "All-in-one client FPS and opt-in world TPS optimizer: dynamic background FPS cap, distance item-frame and ambient swirl culling, optional lossless XP orb clumping & adaptive MSPT/explosion guard (off by default; check multiplayer server rules before enabling), presets, and optional FPS/1% low/MSPT mini-HUD."
+authors = ["Momawd"]
+license = "MIT"
+homepage = "https://github.com/mikolajlabuda17-lang/momawds-optimization"
+api = "0.2"
+side = "both"
+capabilities = ["registries"]
+issues = "https://github.com/mikolajlabuda17-lang/momawds-optimization/issues"
+
+[wasm]
+sha512 = "e7afb0ce10c15732d0d856a94bd08a256ad3ab29979014abedd6ea9f5e727a47d42671deb4dba9b28f13d16face37cac5e3859d9bfcf380b18e7dcbe0d5f0bed"
+toolchain = "1.99.1 58cf8f9c35b355199727627d07ae34a4e2846d67"

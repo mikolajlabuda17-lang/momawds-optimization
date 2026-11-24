@@ -1,0 +1,322 @@
+Momawd's Optimization Mod — Third-Party & Horizon SDK Notices
+================================================================================
+
+1. Momawd's Optimization Mod (Original Mod Code & Assets)
+--------------------------------------------------------------------------------
+Copyright (c) 2026 Momawd
+Source: https://github.com/mikolajlabuda17-lang/momawds-optimization
+License: MIT (see `LICENSE`)
+
+All original Rust source files (`src/`), language files (`assets/`), icon
+(`icon.png`), manifests (`Cargo.toml`, `horizon-mod.toml`), and documentation
+(`README.md`) of Momawd's Optimization Mod are licensed under the MIT License.
+
+
+2. Horizon Mod SDK (Compiled into `mod.wasm` — LGPL-3.0-or-later)
+--------------------------------------------------------------------------------
+The precompiled `mod.wasm` binary distributed in `momawds_optimization-1.0.0.hmod`
+links against and includes compiled code from the Horizon Mod SDK:
+- `horizon-core` 0.1.0
+- `horizon-mod-api` 0.1.0
+- `horizon-mod-api-macros` 0.1.0 (compile-time procedural macro)
+- `horizon-mod-point-shape` 0.1.0
+- `horizon-mod-runtime` 0.1.0
+- `horizon-mod-vocab` 0.1.0
+
+Copyright (c) 2026 Ludovic Marie and the Horizon project contributors.
+Pinned SDK Source Repository: https://github.com/horizon-rust/horizon
+Pinned SDK Commit: `f037744a79f9982c47876f49c5a3067279f88706`
+  (https://github.com/horizon-rust/horizon/tree/f037744a79f9982c47876f49c5a3067279f88706)
+Pinned Wasm Rust Toolchain: `1.99.1` (`58cf8f9c35b355199727627d07ae34a4e2846d67`)
+
+The Horizon Mod SDK crates are distributed under the terms of the GNU Lesser
+General Public License, version 3 or (at your option) any later version
+(`LGPL-3.0-or-later`), which incorporates the terms and conditions of the GNU
+General Public License, version 3 (`GPL-3.0`). Verbatim copies of both licenses
+are included in this archive and source repository as:
+- `LICENSE-LGPL-3.0` (GNU Lesser General Public License v3.0)
+- `LICENSE-GPL-3.0` (GNU General Public License v3.0)
+
+Combined Work & Relinking Notice (GNU LGPL v3.0, Section 4):
+- All complete Mod source code (`Cargo.toml`, `Cargo.lock`, `horizon-mod.toml`,
+  `src/*.rs`) is included directly inside this `.hmod` archive as well as at
+  https://github.com/mikolajlabuda17-lang/momawds-optimization.
+- Under GNU LGPL v3.0 Section 4(d), you may modify the Horizon Mod SDK crates
+  referenced above and relink/rebuild `mod.wasm` to produce a modified `.hmod`
+  archive. Complete step-by-step instructions to rebuild from the pinned SDK or
+  relink against a modified local checkout of `horizon-rust/horizon` are
+  provided in `README.md` ("Rebuilding & Relinking Against the Horizon SDK")
+  and summarized below:
+  1. Install Rust `1.99.1` with `rust-src` and `wasm32-unknown-unknown`:
+     `rustup toolchain install 1.99.1 --profile minimal --component rust-src --target wasm32-unknown-unknown`
+  2. Install `cargo-horizon-mod` from the pinned SDK commit (or your modified
+     checkout of `https://github.com/horizon-rust/horizon`):
+     `cargo install --locked --git https://github.com/horizon-rust/horizon --rev f037744a79f9982c47876f49c5a3067279f88706 cargo-horizon-mod`
+  3. To rebuild against the pinned SDK, run `cargo horizon-mod build --wasm`.
+  4. To relink against a modified Horizon SDK checkout, place this mod folder
+     inside your modified `horizon` workspace checkout and change the
+     `horizon-mod-api` path in `Cargo.toml` to point to that checkout's
+     `crates/horizon-mod-api` (or unpack your modified SDK `api-source` into
+     `.horizon/sdk/` / serve it via `HORIZON_SDK_BASE`), then run
+     `cargo horizon-mod build --wasm`.
+  5. At runtime, Horizon dynamically links `mod.wasm` (compiled with
+     `-Crelocation-model=pic`) against the game's shared `horizon-wasm-std.wasm`
+     module (`cargo horizon-mod wasm-std`).
+
+
+3. Sun Microsystems `fdlibm` 5.3 (Compiled via `horizon-core` and `libm`)
+--------------------------------------------------------------------------------
+`crates/horizon-core/src/jmath/fdlibm.rs`,
+`crates/horizon-core/src/jmath/fdlibm/strict_exp_pow.rs`,
+`crates/horizon-core/src/jmath/fdlibm/strict_trig.rs`, and
+`crates/horizon-core/src/geometry/trig.rs` in the Horizon SDK (as well as math
+routines in the `libm` crate) contain Rust ports/adaptations of `fdlibm` 5.3
+(https://www.netlib.org/fdlibm/), Sun's freely distributable math library.
+
+The original Sun Microsystems copyright and permission notices are preserved
+below:
+
+    Copyright (C) 1993 by Sun Microsystems, Inc. All rights reserved.
+
+    Developed at SunSoft, a Sun Microsystems, Inc. business.
+    Permission to use, copy, modify, and distribute this
+    software is freely granted, provided that this notice
+    is preserved.
+
+For `e_exp.c` and `e_pow.c` (adapted in `strict_exp_pow.rs:1`):
+
+    Copyright (C) 2004 by Sun Microsystems, Inc. All rights reserved.
+
+    Permission to use, copy, modify, and distribute this
+    software is freely granted, provided that this notice
+    is preserved.
+
+And for `k_tan.c` (adapted in `strict_trig.rs`):
+
+    Copyright 2004 Sun Microsystems, Inc. All Rights Reserved.
+
+    Permission to use, copy, modify, and distribute this
+    software is freely granted, provided that this notice
+    is preserved.
+
+
+4. Rust Standard Library & `compiler_builtins` (`rustc 1.99.1`)
+--------------------------------------------------------------------------------
+`cargo horizon-mod build --wasm` compiles Rust's `core`, `alloc`, `std`,
+`panic_abort`, and `compiler_builtins` from source (`-Zbuild-std`) with pinned
+toolchain `1.99.1` (`58cf8f9c35b355199727627d07ae34a4e2846d67`),
+https://github.com/rust-lang/rust.
+
+Copyright (c) The Rust Project Developers.
+Licensed under `MIT OR Apache-2.0 WITH LLVM-exception` (see `LICENSE` for MIT
+and `LICENSE-APACHE-2.0` for Apache-2.0 and the LLVM Exception).
+
+`compiler_builtins` (https://github.com/rust-lang/compiler-builtins) additionally
+incorporates work derived from LLVM's `compiler-rt` (https://llvm.org/):
+- Work derived from `compiler-rt` prior to 2019-01-19 is usable under the MIT
+  License:
+      Copyright (c) 2009-2016 by the contributors listed in CREDITS.TXT
+      (https://github.com/llvm/llvm-project/blob/main/compiler-rt/CREDITS.TXT)
+- Work derived from `compiler-rt` after 2019-01-19 is usable under
+  `Apache-2.0 WITH LLVM-exception` (see `LICENSE-APACHE-2.0`).
+
+
+5. `libm` 0.2.16 (`musl libc`, `CORE-MATH`, FreeBSD `msun`, Sun `fdlibm`)
+--------------------------------------------------------------------------------
+Source: https://github.com/rust-lang/compiler-builtins/tree/main/crates/libm
+License: MIT (see MIT text below and in `LICENSE`)
+Copyright (c) 2018 Jorge Aparicio and The Rust Project Developers.
+
+Portions of `libm` are derived from third-party works under MIT-compatible
+permissive licenses:
+- `musl libc` (https://www.musl-libc.org/):
+      Copyright (c) 2005-2020 Rich Felker, et al.
+
+      Permission is hereby granted, free of charge, to any person obtaining
+      a copy of this software and associated documentation files (the
+      "Software"), to deal in the Software without restriction, including
+      without limitation the rights to use, copy, modify, merge, publish,
+      distribute, sublicense, and/or sell copies of the Software, and to
+      permit persons to whom the Software is furnished to do so, subject to
+      the following conditions:
+
+      The above copyright notice and this permission notice shall be
+      included in all copies or substantial portions of the Software.
+
+      THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+      EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+      IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+      CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+      TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+      SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+  Additional math library attributions retained from `musl libc` `COPYRIGHT`:
+      Much of the math library code (src/math/* and src/complex/*) is
+      Copyright (c) 1993,2004 Sun Microsystems or
+      Copyright (c) 2003-2011 David Schultz or
+      Copyright (c) 2003-2009 Steven G. Kargl or
+      Copyright (c) 2003-2009 Bruce D. Evans or
+      Copyright (c) 2008 Stephen L. Moshier or
+      Copyright (c) 2017-2018 Arm Limited
+      and labelled as such in comments in the individual source files. All
+      have been licensed under extremely permissive terms.
+- The `CORE-MATH` project (https://core-math.gitlabpages.inria.fr/), licensed
+  under the MIT License.
+
+
+6. Third-Party Cargo Dependencies (`Cargo.lock`)
+--------------------------------------------------------------------------------
+The following crates from https://crates.io are listed in `Cargo.lock` as
+direct or transitive dependencies of the Horizon Mod SDK (`MIT` text in
+`LICENSE`, `Apache-2.0` + LLVM-exception in `LICENSE-APACHE-2.0`, and
+`Unicode-3.0` in `LICENSE-UNICODE-3.0`):
+
+- `bytemuck` 1.25.2 & `bytemuck_derive` 1.12.1
+  Source: https://github.com/Lokathor/bytemuck
+  Copyright (c) 2019 Daniel "Lokathor" Gee
+  License: Zlib OR Apache-2.0 OR MIT (used under MIT / Zlib)
+
+- `cfg-if` 1.0.5
+  Source: https://github.com/rust-lang/cfg-if
+  Copyright (c) 2014 Alex Crichton
+  License: MIT OR Apache-2.0
+
+- `getrandom` 0.2.17, `rand` 0.8.8, `rand_chacha` 0.3.1, `rand_core` 0.6.4
+  Source: https://github.com/rust-random/getrandom & https://github.com/rust-random/rand
+  Copyright (c) 2014-2024 The Rand Project Developers
+  License: MIT OR Apache-2.0
+
+- `glam` 0.30.10
+  Source: https://github.com/bitshifter/glam-rs
+  Copyright (c) 2019 Cameron Hart
+  License: MIT OR Apache-2.0
+
+- `itoa` 1.0.19
+  Source: https://github.com/dtolnay/itoa
+  Copyright (c) David Tolnay and contributors
+  License: MIT OR Apache-2.0
+
+- `libc` 0.2.191 & `log` 0.4.35
+  Source: https://github.com/rust-lang/libc & https://github.com/rust-lang/log
+  Copyright (c) The Rust Project Developers
+  License: MIT OR Apache-2.0
+
+- `memchr` 2.8.3
+  Source: https://github.com/BurntSushi/memchr
+  Copyright (c) 2015 Andrew Gallant
+  License: Unlicense OR MIT
+
+- `phf` 0.11.3, `phf_codegen` 0.11.3, `phf_generator` 0.11.3, `phf_shared` 0.11.3
+  Source: https://github.com/rust-phf/rust-phf
+  Copyright (c) 2014-2022 Steven Fackler, Yuki Okushi
+  License: MIT
+
+- `ppv-lite86` 0.2.21
+  Source: https://github.com/cryptocorrosion/cryptocorrosion
+  Copyright (c) 2019 The CryptoCorrosion Contributors
+  License: MIT OR Apache-2.0
+
+- `proc-macro2` 1.0.107, `quote` 1.0.47, `syn` 2.0.119 & 3.0.10
+  Source: https://github.com/dtolnay/proc-macro2, https://github.com/dtolnay/quote,
+          https://github.com/dtolnay/syn
+  Copyright (c) Alex Crichton, David Tolnay, and contributors
+  License: MIT OR Apache-2.0 (compile-time procedural macro support)
+
+- `serde` 1.0.229, `serde_core` 1.0.229, `serde_derive` 1.0.229, `serde_json` 1.0.154
+  Source: https://github.com/serde-rs/serde & https://github.com/serde-rs/json
+  Copyright (c) Erick Tryzelaar, David Tolnay, and contributors
+  License: MIT OR Apache-2.0
+
+- `siphasher` 1.0.4
+  Source: https://github.com/jedisct1/rust-siphash
+  Copyright (c) 2012-2016 The Rust Project Developers; Copyright (c) 2016-2026 Frank Denis
+  License: MIT OR Apache-2.0
+
+- `unicode-ident` 1.0.27
+  Source: https://github.com/dtolnay/unicode-ident
+  Copyright (c) David Tolnay and contributors;
+  Unicode data Copyright (c) 1991-2026 Unicode, Inc.
+  License: (MIT OR Apache-2.0) AND Unicode-3.0 (see `LICENSE-UNICODE-3.0`)
+
+- `unicode_names2` 2.0.0 & `unicode_names2_generator` 2.0.0
+  Source: https://github.com/progval/unicode_names2
+  Copyright (c) Huon Wilson, Kang Seonghoon, Valentin Lorentz, Jeena Lee;
+  Unicode data Copyright © 1991-2023 Unicode, Inc.
+  License: (MIT OR Apache-2.0) AND Unicode-DFS-2016 (see `LICENSE-UNICODE-DFS-2016`)
+  Bundled `data/LICENSE-UNICODE` (`Unicode-DFS-2016`):
+
+      COPYRIGHT AND PERMISSION NOTICE
+
+      Copyright © 1991-2023 Unicode, Inc.
+
+      NOTICE TO USER: Carefully read the following legal agreement. BY
+      DOWNLOADING, INSTALLING, COPYING OR OTHERWISE USING DATA FILES, AND/OR
+      SOFTWARE, YOU UNEQUIVOCALLY ACCEPT, AND AGREE TO BE BOUND BY, ALL OF THE
+      TERMS AND CONDITIONS OF THIS AGREEMENT. IF YOU DO NOT AGREE, DO NOT
+      DOWNLOAD, INSTALL, COPY, DISTRIBUTE OR USE THE DATA FILES OR SOFTWARE.
+
+      Permission is hereby granted, free of charge, to any person obtaining a
+      copy of data files and any associated documentation (the "Data Files") or
+      software and any associated documentation (the "Software") to deal in the
+      Data Files or Software without restriction, including without limitation
+      the rights to use, copy, modify, merge, publish, distribute, and/or sell
+      copies of the Data Files or Software, and to permit persons to whom the
+      Data Files or Software are furnished to do so, provided that either (a)
+      this copyright and permission notice appear with all copies of the Data
+      Files or Software, or (b) this copyright and permission notice appear in
+      associated Documentation.
+
+      THE DATA FILES AND SOFTWARE ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY
+      KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+      MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT OF
+      THIRD PARTY RIGHTS.
+
+      IN NO EVENT SHALL THE COPYRIGHT HOLDER OR HOLDERS INCLUDED IN THIS NOTICE
+      BE LIABLE FOR ANY CLAIM, OR ANY SPECIAL INDIRECT OR CONSEQUENTIAL DAMAGES,
+      OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
+      WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION,
+      ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THE DATA
+      FILES OR SOFTWARE.
+
+      Except as contained in this notice, the name of a copyright holder shall
+      not be used in advertising or otherwise to promote the sale, use or other
+      dealings in these Data Files or Software without prior written
+      authorization of the copyright holder.
+
+- `wasi` 0.11.1+wasi-snapshot-preview1
+  Source: https://github.com/bytecodealliance/wasi-rs
+  Copyright (c) The Cranelift Project Developers / Bytecode Alliance
+  License: Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+
+- `zerocopy` 0.8.64 & `zerocopy-derive` 0.8.64
+  Source: https://github.com/google/zerocopy
+  Copyright (c) 2018-2026 Google LLC / Joshua Liebow-Feeser
+  License: BSD-2-Clause OR Apache-2.0 OR MIT
+  BSD-2-Clause text:
+      Copyright (c) 2018-2026 Google LLC. All rights reserved.
+      Redistribution and use in source and binary forms, with or without
+      modification, are permitted provided that the following conditions are
+      met:
+      1. Redistributions of source code must retain the above copyright
+         notice, this list of conditions and the following disclaimer.
+      2. Redistributions in binary form must reproduce the above copyright
+         notice, this list of conditions and the following disclaimer in the
+         documentation and/or other materials provided with the distribution.
+      THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+      "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+      LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
+      A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
+      HOLDER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+      SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
+      LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
+      DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
+      THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+      (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+      OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+- `zmij` 1.0.23
+  Source: https://github.com/dtolnay/zmij (Rust port of https://github.com/vitaut/zmij)
+  Copyright (c) David Tolnay and contributors; upstream C++ implementation
+  Copyright (c) 2025 Victor Zverovich
+  License: MIT

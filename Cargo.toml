@@ -1,0 +1,12 @@
+[package]
+name = "mod-momawds_optimization"
+version = "1.0.0"
+edition = "2024"
+license = "MIT"
+publish = false
+
+[dependencies]
+horizon-mod-api = { path = ".horizon/sdk/api/crates/horizon-mod-api" }
+
+[package.metadata.horizon]
+sdk = "f037744a79f9982c47876f49c5a3067279f88706"

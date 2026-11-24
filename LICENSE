@@ -1,0 +1,62 @@
+MIT License
+
+Copyright (c) 2026 Momawd
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+================================================================================
+Combined Work, Horizon SDK & Third-Party Notices (mod.wasm / .hmod archive)
+================================================================================
+
+The MIT License above applies to all original source code, language assets,
+icons, manifests, and documentation of Momawd's Optimization Mod (`src/`,
+`assets/`, `icon.png`, `Cargo.toml`, `horizon-mod.toml`, and `README.md`).
+
+The precompiled `mod.wasm` binary distributed inside the `.hmod` package is a
+Combined Work that links and incorporates compiled code from:
+
+1. The pinned Horizon Mod SDK (`horizon-core`, `horizon-mod-api`,
+   `horizon-mod-point-shape`, `horizon-mod-runtime`, and `horizon-mod-vocab`),
+   from https://github.com/horizon-rust/horizon at commit
+   `f037744a79f9982c47876f49c5a3067279f88706`, licensed under the GNU Lesser
+   General Public License v3.0 or later (`LGPL-3.0-or-later`). Full texts of
+   the GNU LGPL v3.0 and GNU GPL v3.0 are included in this archive as
+   `LICENSE-LGPL-3.0` and `LICENSE-GPL-3.0`.
+2. Sun Microsystems `fdlibm` 5.3 math routines adapted in
+   `crates/horizon-core/src/jmath/fdlibm*`, `crates/horizon-core/src/geometry/trig.rs`,
+   and the `libm` crate (Copyright (C) 1993, 2004 Sun Microsystems, Inc.).
+3. The Rust 1.99.1 (`58cf8f9c35b355199727627d07ae34a4e2846d67`) standard, core,
+   alloc, and `compiler_builtins` libraries (`MIT OR Apache-2.0 WITH LLVM-exception`)
+   and third-party Rust crates listed in `Cargo.lock` (`MIT`, `Apache-2.0`,
+   `BSD-2-Clause`, `Zlib`, `Unlicense`, and `Unicode-3.0`).
+
+Nothing in the MIT License above restricts, alters, or replaces any rights
+granted to you under the licenses of the Horizon SDK or third-party components
+(including your right under GNU LGPL v3.0 Section 4 to modify those components
+and relink `mod.wasm` with the complete Mod source included in this archive).
+
+See:
+- `NOTICE` — full Horizon SDK, Sun `fdlibm`, Rust toolchain, `libm`/`musl`, and
+  third-party crate copyright notices and permissive license texts;
+- `LICENSE-LGPL-3.0` and `LICENSE-GPL-3.0` — GNU LGPL v3.0 and GNU GPL v3.0;
+- `LICENSE-APACHE-2.0` — Apache License 2.0 (with LLVM Exception);
+- `LICENSE-UNICODE-3.0` and `LICENSE-UNICODE-DFS-2016` — Unicode License v3 and
+  Unicode Data Files and Software License (`Unicode-DFS-2016`);
+- `README.md` — pinned Horizon SDK source commit, toolchain pin, and exact
+  instructions to rebuild `mod.wasm` or relink against a modified Horizon SDK.
